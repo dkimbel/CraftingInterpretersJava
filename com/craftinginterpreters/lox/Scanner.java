@@ -154,20 +154,24 @@ class Scanner {
     }
 
     private void blockComment() {
+        int numOpenBlocks = 1;
         // A block comment goes until the characters */
-        while (peek() != '*' && peekNext() != '/' && current + 1 < source.length()) {
-            if (peek() == '\n') line++;
+        while (numOpenBlocks > 0 && current + 1 < source.length()) {
+            if (peek() == '\n') {
+                line++;
+            } else if (peek() == '*' && peekNext() == '/') {
+                numOpenBlocks -= 1;
+                advance();
+            } else if (peek() == '/' && peekNext() == '*') {
+                numOpenBlocks += 1;
+                advance();
+            }
             advance();
         }
 
         if (current + 1 >= source.length()) {
             Lox.error(line, "Unterminated block comment.");
-            return;
         }
-
-        // consume / and *
-        advance();
-        advance();
     }
 
     private boolean match(char expected) {
