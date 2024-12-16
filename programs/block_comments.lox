@@ -1,0 +1,4 @@
+my_id = 123
+/* something = "blech"
+my_var = my_id + 2 */
+print my_id

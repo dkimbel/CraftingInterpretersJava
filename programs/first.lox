@@ -1,0 +1,4 @@
+testing = 123
+// just a comment
+something = "hmmm"
+print something
